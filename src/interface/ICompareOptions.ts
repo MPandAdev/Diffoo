@@ -1,4 +1,4 @@
-import { DefaultPolicyFactory } from "@/factory/defaultPolicyFactory";
+import { DefaultPolicyFactory } from "../factory/defaultPolicyFactory";
 /**
  * 比较选项
  * 

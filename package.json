@@ -1,6 +1,6 @@
 {
   "name": "diffoo",
-  "version": "1.0.21",
+  "version": "1.1.00",
   "description": "A module for diff object changes",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -29,6 +29,7 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
-    "dayjs": "^1.11.12"
+    "dayjs": "^1.11.12",
+    "tsconfig-paths-webpack-plugin": "^4.2.0"
   }
 }

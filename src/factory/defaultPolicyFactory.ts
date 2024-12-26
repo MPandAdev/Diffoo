@@ -1,14 +1,14 @@
-import { DiffType } from "@/enums/diffType";
-import { ValueType } from "@/enums/valueType";
-import { ICompareOptions } from "@/interface/ICompareOptions";
-import { ArrayDiffBaseField } from "@/policys/ArrayDiffBaseField";
-import { BaseDiffField } from "@/policys/BaseDiffField";
-import { BooleanDiffBaseField } from "@/policys/BooleanDiffBaseField";
-import { DateDiffBaseField } from "@/policys/DateDiffBaseField";
-import { NumberDiffBaseField } from "@/policys/NumberDiffBaseField";
-import { ObjectDiffBaseField } from "@/policys/ObjectDiffBaseField";
-import { RegExpDiffBaseField } from "@/policys/RegExpDiffBaseField";
-import { StringDiffBaseField } from "@/policys/StringDiffBaseField";
+import { DiffType } from "../enums/diffType";
+import { ValueType } from "../enums/valueType";
+import { ICompareOptions } from "../interface/ICompareOptions";
+import { ArrayDiffBaseField } from "../policys/ArrayDiffBaseField";
+import { BaseDiffField } from "../policys/BaseDiffField";
+import { BooleanDiffBaseField } from "../policys/BooleanDiffBaseField";
+import { DateDiffBaseField } from "../policys/DateDiffBaseField";
+import { NumberDiffBaseField } from "../policys/NumberDiffBaseField";
+import { ObjectDiffBaseField } from "../policys/ObjectDiffBaseField";
+import { RegExpDiffBaseField } from "../policys/RegExpDiffBaseField";
+import { StringDiffBaseField } from "../policys/StringDiffBaseField";
 const version = require('../../package.json').version
 /**
  * 默认策略工厂

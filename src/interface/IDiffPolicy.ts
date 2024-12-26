@@ -1,6 +1,6 @@
-import { DiffType } from "@/enums/diffType";
-import { ValueType } from "@/enums/valueType";
-import { DiffObjType } from "@/type/DiffObjType";
+import { DiffType } from "../enums/diffType";
+import { ValueType } from "../enums/valueType";
+import { DiffObjType } from "../type/DiffObjType";
 /**
  * 对比策略接口
  *

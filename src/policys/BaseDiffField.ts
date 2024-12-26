@@ -1,4 +1,4 @@
-import { Logger } from "@/utils/Logger";
+import { Logger } from "../utils/Logger";
 import { DiffType } from "../enums/diffType";
 import { DefaultPolicyFactory } from "../factory/defaultPolicyFactory";
 import { ICompareOptions } from "../interface/ICompareOptions";

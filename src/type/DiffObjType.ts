@@ -1,4 +1,4 @@
-import { BaseDiffField } from "@/policys/BaseDiffField";
+import { BaseDiffField } from "../policys/BaseDiffField";
 /**
  * DiffObjType
  * 包含了所有的BaseDiffField类型（数组，键值对）

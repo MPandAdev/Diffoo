@@ -2,8 +2,7 @@ import { ICompareOptions } from '../interface/ICompareOptions';
 import { BaseDiffField } from './BaseDiffField';
 import { DiffType } from '../enums/diffType';
 import { ValueType } from '../enums/valueType';
-import { DiffObjType } from '../type/DiffObjType';
-import { Logger } from '@/utils/Logger';
+import { DiffObjType } from '../type/DiffObjType'; 
 export class ObjectDiffBaseField extends BaseDiffField {
   constructor(originRawObj, comparingRawObj, compareOptions: ICompareOptions) {
     super(originRawObj, comparingRawObj, compareOptions);
