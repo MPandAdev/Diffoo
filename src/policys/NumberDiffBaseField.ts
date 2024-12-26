@@ -12,7 +12,10 @@ export class NumberDiffBaseField extends BaseDiffField {
     if (0 === origin && (null === comparing || undefined === comparing)) {
       return DiffType.Delete;
     }
-
+    if(this.compareOptions.decimalToFixed){
+      origin = Number(origin).toFixed(this.compareOptions.decimalToFixed)
+      comparing = Number(comparing).toFixed(this.compareOptions.decimalToFixed)
+    }
     if (origin === comparing) {
       return DiffType.Equal;
     } else {

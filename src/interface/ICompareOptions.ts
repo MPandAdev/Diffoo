@@ -69,8 +69,6 @@ export interface ICompareOptions {
    */
   policyFactory?: DefaultPolicyFactory;
   /**
-   *
-   * 
    * 是否为严格模式
    * 
    * 严格模式下，如果字段类型不一致，将会抛出异常
@@ -100,4 +98,6 @@ export interface ICompareOptions {
    * @memberof ICompareOptions
    */
   debug?: boolean;
+
+  decimalToFixed?: number;
 }
