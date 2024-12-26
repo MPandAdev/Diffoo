@@ -1,6 +1,6 @@
 {
   "name": "diffoo",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "description": "A module for diff object changes",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
