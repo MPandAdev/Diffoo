@@ -48,7 +48,12 @@ export class ArrayDiffBaseField extends BaseDiffField {
     if (!combinedKeyArr || combinedKeyArr.length === 0) {
       throw new Error('Primary key not defined!')
     }
-    return combinedKeyArr.map(key => item[key]).join(identifier)
+    return combinedKeyArr.map(key => {
+      if(this.compareOptions.ignoreSpace){
+        item[key] = item[key].trim();
+      }
+      return item[key]
+    }).join(identifier)
   }
   doDiff(originRawObj: unknown, comparingRawObj: unknown): DiffObjType {
     let policyFactory = this.policyFactory

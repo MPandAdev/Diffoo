@@ -27,13 +27,13 @@ export class DefaultPolicyFactory {
     DefaultPolicyFactory.policyMap.set(ValueType.RegExp,RegExpDiffBaseField);
     DefaultPolicyFactory.policyMap.set(ValueType.Array,ArrayDiffBaseField);
     DefaultPolicyFactory.policyMap.set(ValueType.Object,ObjectDiffBaseField);
-    DefaultPolicyFactory.version();
+    // DefaultPolicyFactory.version();
   }
   static version(){
-    if(sessionStorage){
-      if(!sessionStorage.getItem('Diffoo')){
+    if(window.sessionStorage){
+      if(!window.sessionStorage.getItem('Diffoo')){
         console.log(`Diffoo ${version}`);
-        sessionStorage.setItem('Diffoo', version);
+        window.sessionStorage.setItem('Diffoo', version);
       }
     }else{
       console.log(`Diffoo ${version}`);

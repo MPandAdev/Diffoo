@@ -19,10 +19,10 @@ export class StringDiffBaseField extends BaseDiffField {
       if (this.compareOptions.ignoreCase) {
         origin = (origin as string).toLowerCase();
         comparing = (comparing as string).toLowerCase();
-      }
+      } 
       if (this.compareOptions.ignoreSpace) {
-        origin = (origin as string).replace(/\s/g, "");
-        comparing = (comparing as string).replace(/\s/g, "");
+        origin = (origin as string).trim().replace(/\s/g, "");
+        comparing = (comparing as string).trim().replace(/\s/g, "");
       }
     }
     return origin === comparing ? DiffType.Equal : DiffType.Update;
