@@ -1,9 +1,27 @@
 const {version,name:Name} = require('../../package.json')
+/**
+ * 日志类
+ *
+ * @export
+ * @class Logger
+ */
 export class Logger {
+    /**
+     * 是否开启debug
+     *
+     * @type {boolean}
+     * @memberof Logger
+     */
     isDebug:boolean;
     constructor(debug:boolean = false){
         this.isDebug = debug;
     }
+    /**
+     * 标记
+     *
+     * @type {string}
+     * @memberof Logger
+     */
     marker: string = `[${Name}-${version}]`;
     log(...args: any[]) {
         if(this.isDebug){

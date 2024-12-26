@@ -61,12 +61,12 @@ describe('DefaultPolicyFactory Tests', () => {
 
   describe('create method', () => {
     test('should create instance of StringDiffBaseField', () => {
-      const result = DefaultPolicyFactory.create(StringDiffBaseField, "String1", "String2", {});
+      const result = DefaultPolicyFactory.createProxy(StringDiffBaseField, "String1", "String2", {});
       expect(result).toBeInstanceOf(StringDiffBaseField);
     });
 
     test('should create instance of NumberDiffBaseField', () => {
-      const result = DefaultPolicyFactory.create(NumberDiffBaseField, 1, 2, {});
+      const result = DefaultPolicyFactory.createProxy(NumberDiffBaseField, 1, 2, {});
       expect(result).toBeInstanceOf(NumberDiffBaseField);
     });
   }); 

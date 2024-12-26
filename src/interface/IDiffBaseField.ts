@@ -1,8 +1,10 @@
 import { DiffType } from "@/enums/diffType"; 
 import { DiffObjType } from "@/type/DiffObjType";
-
 /**
- * 对比基础字段接口
+ * 对比结果类型
+ *
+ * @export
+ * @interface IDiffBaseField
  */
 export default interface IDiffBaseField {
   /**
