@@ -13,8 +13,8 @@ export class NumberDiffBaseField extends BaseDiffField {
       return DiffType.Delete;
     }
     if(this.compareOptions.decimalToFixed){
-      origin = Number(origin).toFixed(this.compareOptions.decimalToFixed)
-      comparing = Number(comparing).toFixed(this.compareOptions.decimalToFixed)
+      origin = parseFloat(Number(origin).toFixed(this.compareOptions.decimalToFixed))
+      comparing = parseFloat(Number(comparing).toFixed(this.compareOptions.decimalToFixed))
     }
     if (origin === comparing) {
       return DiffType.Equal;
