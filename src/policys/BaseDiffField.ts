@@ -28,7 +28,7 @@ export class BaseDiffField implements IDefaultDiffBaseField{
     if(this.checkObjectType(originRawObj,comparingRawObj)){
       this.__compare__(this.originRawObj,this.comparingRawObj);
     } else {
-      throw new Error("对象类型不一致，无法比较！");
+      throw new Error("Object types are inconsistent and cannot be compared!");
     }
   }
   /**

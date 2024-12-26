@@ -64,7 +64,7 @@ export class DefaultPolicyFactory {
       }
       let type = types[0];
       if(!DefaultPolicyFactory.policyMap.has(type))
-        throw new Error(`未找到对应的策略类：${type}`);
+        throw new Error(`No corresponding policy class found for type: ${type}`);
       result = DefaultPolicyFactory.create(DefaultPolicyFactory.policyMap.get(type),originRawObj,comparingRawObj,{...compareOptions,policyFactory:this});
     }
     else if (types.length === 0){

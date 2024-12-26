@@ -18,7 +18,7 @@ export class ArrayDiffBaseField extends BaseDiffField {
       return DiffType.Add;
     }
     const compared: any = this.doDiff(origin, comparing)
-    return compared.filter(item=>item).filter(item => ![DiffType.Equal,DiffType.Ignore].includes(item.diffType)).length>0 ? DiffType.Update : DiffType.Equal
+    return compared.filter(item => item).filter(item => ![DiffType.Equal, DiffType.Ignore].includes(item.diffType)).length > 0 ? DiffType.Update : DiffType.Equal
   }
   applyArray(originRawList, comparingRawList) {
     // 取最大长度，补全数组长度
@@ -31,22 +31,22 @@ export class ArrayDiffBaseField extends BaseDiffField {
     })
   }
   __getOriginFromDiff(diffObj: DiffObjType): unknown {
-    if(!diffObj){
+    if (!diffObj) {
       return null
     }
     const diffObjArray = (diffObj as Array<BaseDiffField>);
-    return diffObjArray.filter(item =>[DiffType.Delete,DiffType.Update,DiffType.Equal,DiffType.Ignore].includes(item.diffType))
+    return diffObjArray.filter(item => [DiffType.Delete, DiffType.Update, DiffType.Equal, DiffType.Ignore].includes(item.diffType))
   }
   __getComparingFromDiff(diffObj: DiffObjType): unknown {
-    if(!diffObj){
+    if (!diffObj) {
       return null
     }
     const diffObjArray = (diffObj as Array<BaseDiffField>);
-    return diffObjArray.filter(item =>[DiffType.Add,DiffType.Update,DiffType.Equal,DiffType.Ignore].includes(item.diffType))
+    return diffObjArray.filter(item => [DiffType.Add, DiffType.Update, DiffType.Equal, DiffType.Ignore].includes(item.diffType))
   }
   getCombinedKey(item: any, combinedKeyArr: string[], identifier: string) {
-    if(!combinedKeyArr||combinedKeyArr.length === 0){
-      throw new Error('未定义主键!')
+    if (!combinedKeyArr || combinedKeyArr.length === 0) {
+      throw new Error('Primary key not defined!')
     }
     return combinedKeyArr.map(key => item[key]).join(identifier)
   }
@@ -54,8 +54,8 @@ export class ArrayDiffBaseField extends BaseDiffField {
     let policyFactory = this.policyFactory
     let result = null;
     if ([originRawObj, comparingRawObj].some(item => item === null)) {
-      originRawObj=originRawObj||[]
-      comparingRawObj=comparingRawObj||[]
+      originRawObj = originRawObj || []
+      comparingRawObj = comparingRawObj || []
       result = policyFactory.produce(originRawObj, comparingRawObj, this.compareOptions)
       if (null === result) {
         return this;
@@ -63,10 +63,10 @@ export class ArrayDiffBaseField extends BaseDiffField {
     }
     let originRawList = originRawObj as any[]
     let comparingRawList = comparingRawObj as any[]
-    if(!originRawList){
+    if (!originRawList) {
       originRawList = []
     }
-    if(!comparingRawList){
+    if (!comparingRawList) {
       comparingRawList = []
     }
     // 取最大长度，补全数组长度
@@ -82,9 +82,9 @@ export class ArrayDiffBaseField extends BaseDiffField {
     const summaryObjectTypes = originObjectTypes.concat(comparingObjectTypes).filter((item, index, self) => self.indexOf(item) === index)
     let combinedKey = null
     if (this.compareOptions.primaryKeyFields) {
-      combinedKey = Object.keys(this.compareOptions.primaryKeyFields).filter(key => this.compareOptions.primaryKeyFields[key].constructor.name.toLowerCase() === ValueType.Boolean).filter((key,index,self)=> self.indexOf(key) === index)
+      combinedKey = Object.keys(this.compareOptions.primaryKeyFields).filter(key => this.compareOptions.primaryKeyFields[key].constructor.name.toLowerCase() === ValueType.Boolean).filter((key, index, self) => self.indexOf(key) === index)
     }
-    this.logger.log('[ArrayDiffBaseField]combinedKey',combinedKey)
+    this.logger.log('[ArrayDiffBaseField]combinedKey', combinedKey)
     const originObjectMap = new Map<string, any[]>();
     const comparingObjectMap = new Map<string, any[]>();
     summaryObjectTypes.forEach(type => {
@@ -101,14 +101,14 @@ export class ArrayDiffBaseField extends BaseDiffField {
         summaryKey.forEach(key => {
           const originObjects = originObjectList.filter(item => this.getCombinedKey(item, combinedKey, '_') === key)
           const comparingObjects = comparingObjectList.filter(item => this.getCombinedKey(item, combinedKey, '_') === key)
-          if(originObjects.length>1){
-            this.logger.error(`[Origin] 主键(${combinedKey.join(',')})重复!, 重复值为${JSON.stringify(originObjects)}`)
-            throw new Error(`[Origin] 主键(${combinedKey.join(',')})重复!`)
+          if (originObjects.length > 1) {
+            this.logger.error(`[Origin] Primary key (${combinedKey.join(',')}) is duplicated! Duplicate values are ${JSON.stringify(originObjects)}`);
+            throw new Error(`[Origin] Primary key (${combinedKey.join(',')}) is duplicated!`);
           }
-          const originObject = originObjects[0]
-          if(comparingObjects.length>1){
-            this.logger.error(`[Comparing] 主键(${combinedKey.join(',')})重复!, 重复值为${JSON.stringify(comparingObjects)}`)
-            throw new Error(`[Comparing] 主键(${combinedKey.join(',')})重复!`)
+          const originObject = originObjects[0];
+          if (comparingObjects.length > 1) {
+            this.logger.error(`[Comparing] Primary key (${combinedKey.join(',')}) is duplicated! Duplicate values are ${JSON.stringify(comparingObjects)}`);
+            throw new Error(`[Comparing] Primary key (${combinedKey.join(',')}) is duplicated!`);
           }
           const comparingObject = comparingObjects[0]
           resultDiffObj.push(policyFactory.produce(originObject, comparingObject, this.compareOptions))
@@ -124,7 +124,7 @@ export class ArrayDiffBaseField extends BaseDiffField {
           if (index > -1) {
             resultDiffObj.push(policyFactory.produce(originSortedArray[index], comparingValue, this.compareOptions))
             originSortedArray.splice(index, 1)
-          }else{
+          } else {
             // 如果没有找到，则说明是新增的
             resultDiffObj.push(policyFactory.produce(null, comparingValue, this.compareOptions))
           }
