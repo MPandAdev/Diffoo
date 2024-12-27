@@ -1,6 +1,6 @@
 {
   "name": "diffoo",
-  "version": "1.1.00",
+  "version": "1.1.01",
   "description": "A module for diff object changes",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -9,7 +9,26 @@
     "test": "jest"
   },
   "author": "Ham",
-  "license": "ISC",
+  "license": "MIT",
+  "homepage": "https://github.com/MPandAdev/Diffoo",
+  "keywords": [
+    "diff",
+    "object",
+    "changes",
+    "compare",
+    "difference",
+    "object-diff",
+    "object-changes",
+    "javascript",
+    "typescript",
+    "module",
+    "library",
+    "vue",
+    "vue3",
+    "react",
+    "js",
+    "ts"
+  ],
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.25.3",
@@ -29,7 +48,6 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
-    "dayjs": "^1.11.12",
-    "tsconfig-paths-webpack-plugin": "^4.2.0"
+    "dayjs": "^1.11.12"
   }
 }
