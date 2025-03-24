@@ -4,6 +4,9 @@ import { DefaultPolicyFactory } from "../factory/defaultPolicyFactory";
 import { ICompareOptions } from "../interface/ICompareOptions";
 import { IDefaultDiffBaseField } from "../interface/IDefaultDiffBaseField";
 import { DiffObjType } from "../type/DiffObjType";
+import { checkProxyFuncExist, handleProxyFuncs } from "@/extends";
+import {v7} from 'uuid';
+import { ValueType } from "@/enums/valueType";
 
 /**
  * 基础比较策略类
@@ -15,6 +18,7 @@ import { DiffObjType } from "../type/DiffObjType";
  * @implements {IDefaultDiffBaseField}
  */
 export class BaseDiffField implements IDefaultDiffBaseField{
+  __id__: string;
   originRawObj: unknown;
   /**
    * 原始对象
@@ -38,7 +42,8 @@ export class BaseDiffField implements IDefaultDiffBaseField{
   diffObj: DiffObjType;
   valueType: string;
   diffType: DiffType;
-
+  isLeafNode: boolean = false;
+  parentNode: BaseDiffField;
   /**
    * 比较选项
    * 
@@ -51,16 +56,27 @@ export class BaseDiffField implements IDefaultDiffBaseField{
   policyFactory: DefaultPolicyFactory;
   logger: Logger;
   constructor(originRawObj,comparingRawObj,compareOptions?:ICompareOptions){
-    this.originRawObj = originRawObj;
-    this.comparingRawObj = comparingRawObj;
-    this.compareOptions = compareOptions;
+    this.__id__ = v7(); 
+    this.__preset__(originRawObj,comparingRawObj,compareOptions)
     this.policyFactory = compareOptions.policyFactory;
     this.logger = new Logger(compareOptions.debug);
+    this.parentNode = compareOptions.__parent__node__;
     if(this.checkObjectType(originRawObj,comparingRawObj)){
       this.__compare__(this.originRawObj,this.comparingRawObj);
     } else {
       throw new Error("Object types are inconsistent and cannot be compared!");
     }
+  }
+  __preset__(originRawObj,comparingRawObj,compareOptions){
+    this.originRawObj = this.__handleOriginRawObj__(originRawObj,compareOptions);
+    this.comparingRawObj = this.__handleComparingRawObj__(comparingRawObj,compareOptions);
+    this.compareOptions = compareOptions;
+  }
+  __handleOriginRawObj__(originRawObj,compareOptions) { 
+    return originRawObj
+  }
+  __handleComparingRawObj__(comparingRawObj,compareOptions) { 
+    return comparingRawObj
   }
   /**
    * 比较两个对象
@@ -141,6 +157,7 @@ __getOriginFromDiff(diffObj: DiffObjType): unknown {
    * @memberof BaseDiffField
    */
   doDiff<T>(originRawObj: null|undefined|T, comparingRawObj: null|undefined|T): DiffObjType {
+    this.isLeafNode = true;
     return this;
   }
   /**
@@ -221,13 +238,11 @@ __getOriginFromDiff(diffObj: DiffObjType): unknown {
    */
   getProxy(){
     return new Proxy(this,{
+      // target: T, p: string | symbol, receiver: any
       get(target,prop,receiver){
-        if(prop === 'value'){
-          return target.comparingRawObj;
+        if(checkProxyFuncExist(prop)){
+          return handleProxyFuncs(prop,target);
         }
-        if(prop === 'diff'||prop === 'diffObj'){
-          return target === target.diffObj?null:target.diffObj;
-        } 
         return Reflect.get(target,prop,receiver);
       },
       set(target,prop,value,receiver){

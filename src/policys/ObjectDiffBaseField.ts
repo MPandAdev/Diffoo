@@ -3,9 +3,24 @@ import { BaseDiffField } from './BaseDiffField';
 import { DiffType } from '../enums/diffType';
 import { ValueType } from '../enums/valueType';
 import { DiffObjType } from '../type/DiffObjType'; 
+import { default_id_key } from '@/extends/functions/id';
 export class ObjectDiffBaseField extends BaseDiffField {
   constructor(originRawObj, comparingRawObj, compareOptions: ICompareOptions) {
     super(originRawObj, comparingRawObj, compareOptions);
+  } 
+  __handleComparingRawObj__(comparingRawObj,compareOptions) {
+    if(comparingRawObj && null !== compareOptions.injectId && undefined !== compareOptions.injectId){
+      let injectIdKey = compareOptions.injectId;
+      if(typeof compareOptions.injectId === ValueType.Boolean){
+        if(compareOptions.injectId){
+          injectIdKey = default_id_key 
+          comparingRawObj[injectIdKey] = this.__id__;
+        }
+      }else{
+        comparingRawObj[injectIdKey] = this.__id__;
+      }
+    }
+    return comparingRawObj
   }
   compare(origin: Object, comparing: Object): DiffType {
     if (origin === comparing) {
@@ -30,13 +45,35 @@ export class ObjectDiffBaseField extends BaseDiffField {
     const resultDiffObj: DiffObjType = {} as Record<string, BaseDiffField>;
     const fieldMap = new Set<string>();
     const originFieds = originRawObj?Object.keys(originRawObj):[];
-    originFieds.forEach(key => {
+    for(let key of originFieds){
+      if(!!this.compareOptions.injectId){
+        let ignoreIdKey = this.compareOptions.injectId;
+        if( typeof ignoreIdKey === ValueType.Boolean){
+          ignoreIdKey = default_id_key;
+        }
+        if(ignoreIdKey === key){
+          continue;
+        }
+      }
       fieldMap.add(key);
-    });
+    } 
     const comparingFieds = comparingRawObj?Object.keys(comparingRawObj):[];
-    comparingFieds.forEach(key => {
+    // comparingFieds.forEach(key => {
+    //   fieldMap.add(key);
+    // });
+
+    for(let key of comparingFieds){
+      if(!!this.compareOptions.injectId){
+        let ignoreIdKey = this.compareOptions.injectId;
+        if( typeof ignoreIdKey === ValueType.Boolean){
+          ignoreIdKey = default_id_key;
+        }
+        if(ignoreIdKey === key){
+          continue;
+        }
+      }
       fieldMap.add(key);
-    });
+    } 
     let ignoreFields: Record<string, Boolean> | Record<string, Record<string, Boolean>> = this.compareOptions.ignoreFields;
     let includeFields: Record<string, Boolean> | Record<string, Record<string, Boolean>> = this.compareOptions.includeFields;
     const fullFields = originFieds.concat(comparingFieds).filter((value, index, self) => self.indexOf(value) === index)
@@ -88,10 +125,10 @@ export class ObjectDiffBaseField extends BaseDiffField {
       let result = null;
       try{
         if(ignoreFields && ignoreFields[key] && typeof ignoreFields[key] === ValueType.Boolean){
-          result = policyFactory.produce(originRawObj[key], null, { ...this.compareOptions, primaryKeyFields:nextLayerPrimaryKeyFields ,ignoreFields:nextLayerIgnoreFields, includeFields:nextLayerIncludeFields});
+          result = policyFactory.produce(originRawObj[key], null, { ...this.compareOptions, primaryKeyFields:nextLayerPrimaryKeyFields ,ignoreFields:nextLayerIgnoreFields, includeFields:nextLayerIncludeFields,__parent__node__:this});
           result.diffType = DiffType.Ignore;
         }else{
-          result = policyFactory.produce(originRawObj[key], comparingRawObj[key], { ...this.compareOptions, primaryKeyFields:nextLayerPrimaryKeyFields ,ignoreFields:nextLayerIgnoreFields, includeFields:nextLayerIncludeFields});
+          result = policyFactory.produce(originRawObj[key], comparingRawObj[key], { ...this.compareOptions, primaryKeyFields:nextLayerPrimaryKeyFields ,ignoreFields:nextLayerIgnoreFields, includeFields:nextLayerIncludeFields,__parent__node__:this});
         }
         if(!result){
           resultDiffObj[key] = null;

@@ -7,6 +7,7 @@ import { DiffObjType } from "../type/DiffObjType";
  * @interface IDiffBaseField
  */
 export default interface IDiffBaseField {
+  __id__: string;
   /**
    *原始对象
    *
@@ -35,6 +36,8 @@ export default interface IDiffBaseField {
    * @memberof IDiffBaseField
    */
   diffType: DiffType;
+
+  isLeafNode:boolean;
   /**
    *获取原始对象
    *

@@ -3,9 +3,28 @@ import { BaseDiffField } from './BaseDiffField';
 import { DiffType } from '../enums/diffType';
 import { ValueType } from '../enums/valueType';
 import { DiffObjType } from '../type/DiffObjType';
+import { default_id_key } from '@/extends/functions/id';
 export class ArrayDiffBaseField extends BaseDiffField {
   constructor(originRawObj, comparingRawObj, compareOptions: ICompareOptions) {
     super(originRawObj, comparingRawObj, compareOptions);
+  } 
+  __handleComparingRawObj__(comparingRawObj,compareOptions) {
+    if(comparingRawObj && null !== compareOptions.injectId && undefined !== compareOptions.injectId){
+      let injectIdKey = compareOptions.injectId;
+      if(typeof compareOptions.injectId === ValueType.Boolean){
+        comparingRawObj.forEach((item,index) => { 
+          if(compareOptions.injectId){
+            injectIdKey = default_id_key
+            comparingRawObj[index][injectIdKey] = this.__id__;
+          }
+        })
+      }else{
+        comparingRawObj.forEach((item,index) => { 
+          comparingRawObj[index][injectIdKey] = this.__id__;
+        })
+      }
+    }
+    return comparingRawObj
   }
   compare(origin: unknown, comparing: unknown): DiffType {
     if ((null === origin && null === comparing) || (origin === comparing)) {
@@ -86,6 +105,8 @@ export class ArrayDiffBaseField extends BaseDiffField {
     const comparingObjectTypes = comparingRawList.map(item => item.constructor.name.toLowerCase()).filter((item, index, self) => self.indexOf(item) === index)
     const summaryObjectTypes = originObjectTypes.concat(comparingObjectTypes).filter((item, index, self) => self.indexOf(item) === index)
     let combinedKey = null
+    this.compareOptions.__parent__node__ = this;
+    // ,__parent__node__:this
     if (this.compareOptions.primaryKeyFields) {
       combinedKey = Object.keys(this.compareOptions.primaryKeyFields).filter(key => this.compareOptions.primaryKeyFields[key].constructor.name.toLowerCase() === ValueType.Boolean).filter((key, index, self) => self.indexOf(key) === index)
     }

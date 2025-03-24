@@ -1,3 +1,4 @@
+import { BaseDiffField } from "@/policys";
 import { DefaultPolicyFactory } from "../factory/defaultPolicyFactory";
 /**
  * 比较选项
@@ -100,4 +101,8 @@ export interface ICompareOptions {
   debug?: boolean;
 
   decimalToFixed?: number;
+
+  __parent__node__?: BaseDiffField;
+
+  injectId?: boolean|string|number|undefined;
 }
