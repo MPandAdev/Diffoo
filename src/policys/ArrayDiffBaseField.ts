@@ -50,7 +50,7 @@ export class ArrayDiffBaseField extends BaseDiffField {
     }
     return combinedKeyArr.map(key => {
       if(this.compareOptions.ignoreSpace){
-        item[key] = item[key].trim();
+        item[key] = String(item[key]).trim();
       }
       return item[key]
     }).join(identifier)
