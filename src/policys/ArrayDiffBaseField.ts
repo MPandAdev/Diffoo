@@ -108,12 +108,22 @@ export class ArrayDiffBaseField extends BaseDiffField {
           const comparingObjects = comparingObjectList.filter(item => this.getCombinedKey(item, combinedKey, '_') === key)
           if (originObjects.length > 1) {
             this.logger.error(`[Origin] Primary key (${combinedKey.join(',')}) is duplicated! Duplicate values are ${JSON.stringify(originObjects)}`);
-            throw new Error(`[Origin] Primary key (${combinedKey.join(',')}) is duplicated!`);
+            let error = `[Origin] Primary key (${combinedKey.join(',')}) is duplicated!`;
+            if(this.compareOptions.throwError){
+              throw new Error(error);
+            }else{
+              console.warn(error);
+            } 
           }
           const originObject = originObjects[0];
           if (comparingObjects.length > 1) {
             this.logger.error(`[Comparing] Primary key (${combinedKey.join(',')}) is duplicated! Duplicate values are ${JSON.stringify(comparingObjects)}`);
-            throw new Error(`[Comparing] Primary key (${combinedKey.join(',')}) is duplicated!`);
+            let error = `[Comparing] Primary key (${combinedKey.join(',')}) is duplicated!`;
+            if(this.compareOptions.throwError){
+              throw new Error(error);
+            }else{
+              console.warn(error);
+            }
           }
           const comparingObject = comparingObjects[0]
           resultDiffObj.push(policyFactory.produce(originObject, comparingObject, this.compareOptions))

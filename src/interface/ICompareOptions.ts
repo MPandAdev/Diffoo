@@ -100,4 +100,6 @@ export interface ICompareOptions {
   debug?: boolean;
 
   decimalToFixed?: number;
+
+  throwError?: boolean;
 }

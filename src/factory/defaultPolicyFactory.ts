@@ -102,8 +102,14 @@ export class DefaultPolicyFactory {
           }
       }
       let type = types[0];
-      if(!DefaultPolicyFactory.policyMap.has(type))
-        throw new Error(`No corresponding policy class found for type: ${type}`);
+      if(!DefaultPolicyFactory.policyMap.has(type)){
+        let error = `No corresponding policy class found for type: ${type}`
+        if(compareOptions.throwError){
+          throw new Error(error);
+        }else{
+          console.warn(error);
+        }
+      }
       result = DefaultPolicyFactory.createProxy(DefaultPolicyFactory.policyMap.get(type),originRawObj,comparingRawObj,{...compareOptions,policyFactory:this});
     }
     else if (types.length === 0){
