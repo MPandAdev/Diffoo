@@ -29,7 +29,8 @@ module.exports = {
   output: {
     filename: 'index.js',
     path: path.resolve(__dirname, 'dist'), 
-    libraryTarget: 'commonjs2', // 关键修改
-    globalObject: 'this', // 确保Node.js环境正确
-  },
+    libraryTarget: 'umd', // 或者 'esm'
+    globalObject: 'this',
+    umdNamedDefine: true, // 如果使用 umd
+  }
 };

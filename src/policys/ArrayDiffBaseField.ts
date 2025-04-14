@@ -129,12 +129,11 @@ export class ArrayDiffBaseField extends BaseDiffField {
             const comparingObject = comparingObjects[0]
             resultDiffObj.push(policyFactory.produce(originObject, comparingObject, this.compareOptions))
           }else{
-               // 长度不相等，则循环长的,
-              console.log('ARRAY DIFF BASE FILED here')
-              let size = Math.max(originObjectList.length, comparingObjectList.length)
+               // 长度不相等，则循环长的, 
+              let size = Math.max(originObjects.length, comparingObjects.length)
               for(let i=0;i<size;i++){
-                let originObject = originObjectList[i]||null
-                let comparingObject = comparingObjectList[i]||null 
+                let originObject = originObjects[i]||null
+                let comparingObject = comparingObjects[i]||null 
                 resultDiffObj.push(policyFactory.produce(originObject, comparingObject, this.compareOptions))
               }
           }

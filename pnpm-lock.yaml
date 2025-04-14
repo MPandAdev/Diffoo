@@ -11,6 +11,9 @@ importers:
       dayjs:
         specifier: ^1.11.12
         version: 1.11.12
+      diffoo:
+        specifier: 'file:'
+        version: 'file:'
     devDependencies:
       '@babel/core':
         specifier: ^7.25.2
@@ -1294,6 +1297,9 @@ packages:
   diff-sequences@29.6.3:
     resolution: {integrity: sha512-EjePK1srD3P08o2j4f0ExnylqRs5B9tJjcp9t1krH2qRi8CCdsYfwe9JgSLurFBWwq4uOlipzfk5fHNvwFKr8Q==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+
+  'diffoo@file:':
+    resolution: {directory: '', type: directory}
 
   dir-glob@3.0.1:
     resolution: {integrity: sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA==}
@@ -4056,6 +4062,10 @@ snapshots:
   detect-newline@3.1.0: {}
 
   diff-sequences@29.6.3: {}
+
+  'diffoo@file:':
+    dependencies:
+      dayjs: 1.11.12
 
   dir-glob@3.0.1:
     dependencies:
