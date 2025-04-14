@@ -102,4 +102,6 @@ export interface ICompareOptions {
   decimalToFixed?: number;
 
   throwError?: boolean;
+
+  showDuplicate? : boolean;
 }

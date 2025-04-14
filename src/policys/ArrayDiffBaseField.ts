@@ -106,27 +106,38 @@ export class ArrayDiffBaseField extends BaseDiffField {
         summaryKey.forEach(key => {
           const originObjects = originObjectList.filter(item => this.getCombinedKey(item, combinedKey, '_') === key)
           const comparingObjects = comparingObjectList.filter(item => this.getCombinedKey(item, combinedKey, '_') === key)
-          if (originObjects.length > 1) {
-            this.logger.error(`[Origin] Primary key (${combinedKey.join(',')}) is duplicated! Duplicate values are ${JSON.stringify(originObjects)}`);
-            let error = `[Origin] Primary key (${combinedKey.join(',')}) is duplicated!`;
-            if(this.compareOptions.throwError){
-              throw new Error(error);
-            }else{
-              console.warn(error);
-            } 
-          }
-          const originObject = originObjects[0];
-          if (comparingObjects.length > 1) {
-            this.logger.error(`[Comparing] Primary key (${combinedKey.join(',')}) is duplicated! Duplicate values are ${JSON.stringify(comparingObjects)}`);
-            let error = `[Comparing] Primary key (${combinedKey.join(',')}) is duplicated!`;
-            if(this.compareOptions.throwError){
-              throw new Error(error);
-            }else{
-              console.warn(error);
+          if(!this.compareOptions.showDuplicate){
+            if (originObjects.length > 1) {
+              this.logger.error(`[Origin] Primary key (${combinedKey.join(',')}) is duplicated! Duplicate values are ${JSON.stringify(originObjects)}`);
+              let error = `[Origin] Primary key (${combinedKey.join(',')}) is duplicated!`;
+              if(this.compareOptions.throwError){
+                throw new Error(error);
+              }else{
+                console.warn(error);
+              } 
             }
+            const originObject = originObjects[0];
+            if (comparingObjects.length > 1) {
+              this.logger.error(`[Comparing] Primary key (${combinedKey.join(',')}) is duplicated! Duplicate values are ${JSON.stringify(comparingObjects)}`);
+              let error = `[Comparing] Primary key (${combinedKey.join(',')}) is duplicated!`;
+              if(this.compareOptions.throwError){
+                throw new Error(error);
+              }else{
+                console.warn(error);
+              }
+            }
+            const comparingObject = comparingObjects[0]
+            resultDiffObj.push(policyFactory.produce(originObject, comparingObject, this.compareOptions))
+          }else{
+               // 长度不相等，则循环长的,
+              console.log('ARRAY DIFF BASE FILED here')
+              let size = Math.max(originObjectList.length, comparingObjectList.length)
+              for(let i=0;i<size;i++){
+                let originObject = originObjectList[i]||null
+                let comparingObject = comparingObjectList[i]||null 
+                resultDiffObj.push(policyFactory.produce(originObject, comparingObject, this.compareOptions))
+              }
           }
-          const comparingObject = comparingObjects[0]
-          resultDiffObj.push(policyFactory.produce(originObject, comparingObject, this.compareOptions))
         })
       } else {
         // 标准的数据类型，则需要挨个比较是否存在
